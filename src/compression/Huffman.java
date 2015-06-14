@@ -59,13 +59,13 @@ public class Huffman
      * main
      * @param args the command line arguments
      */
-    public static void main(String[] args)
+   public static void main(String[] args)
     {
 //----------------------------------------------------
 // used for debugging encoding
 //----------------------------------------------------
 //        args = new String[1];
-//        args[0] = "src/compression/11.txt";
+//        args[0] = "alice.txt";
 //----------------------------------------------------
 // used for debugging encoding
 //----------------------------------------------------
@@ -73,25 +73,52 @@ public class Huffman
 //        args[0] = "-d";
 //        args[1] = "alice.txt";  
 //----------------------------------------------------        
-        boolean decode = true;
+        boolean decode = false;
         String textFileName = "";
-        if(args.length > 0)
+        Huffman coder = new Huffman();
+        if(args.length == 0)
+        {
+            textFileName = JOptionPane.showInputDialog("Please "
+                                + "enter the file you wish to compress: ");
+            if(!coder.isFileFound(textFileName))
+            {
+                textFileName = JOptionPane.showInputDialog("Please "
+                                + "enter the file you wish to compress: ");
+            }
+        }
+        else
         {
             if(args[0].substring(0,2).toLowerCase().equals("-d"))
             {
                 decode = true;
                 if(args.length > 1)
+                {   
                     textFileName = args[1];
+                }
+                else
+                {
+                    textFileName = JOptionPane.showInputDialog("Please enter "
+                            + "the file you wish to compress: ");
+                    if(!coder.isFileFound(textFileName))
+                    {
+                       textFileName = JOptionPane.showInputDialog("Please "
+                                + "enter the file you wish to compress: ");
+                    }
+                }
             }
             else
+            {
                 textFileName = args[0];
+            }
         }
-        Huffman coder = new Huffman();
         if(decode)
-            coder.encode(textFileName);
-        else
             coder.decode(textFileName);
-    }
+        else
+            coder.encode(textFileName);
+            JOptionPane.showMessageDialog(null,
+                     coder.hufFile + ":" + coder.compression + "% compression", 
+                     "File Information", INFORMATION_MESSAGE, null);
+    } 
 
     /*
      * encode
